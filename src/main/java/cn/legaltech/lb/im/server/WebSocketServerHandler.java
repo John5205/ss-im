@@ -20,7 +20,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<TextWebS
     private static final Logger log = LogManager.getLogger(WebSocketServerHandler.class);
 
     @Override
-    public void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg){
+    public void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) {
         log.info("Received message: " + msg);
         ByteBuf content = msg.content();
         String text = content.toString(CharsetUtil.UTF_8);
@@ -40,7 +40,8 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<TextWebS
      */
     private TextWebSocketFrame messageHandler(Object msg) {
         // 如果是字节数据
-        if (msg instanceof TextWebSocketFrame textWebSocketFrame) {
+        if (msg instanceof TextWebSocketFrame) {
+            TextWebSocketFrame textWebSocketFrame = (TextWebSocketFrame) msg;
             log.info("Received ByteBuf message: " + textWebSocketFrame);
             return textWebSocketFrame;
         }
@@ -50,21 +51,21 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<TextWebS
     /**
      * 如果是自己实现的 handler，确保没有阻止消息传递
      *
-     * @param ctx     通道参数
-     * @param msg     消息
-     * @throws Exception   异常
+     * @param ctx 通道参数
+     * @param msg 消息
+     * @throws Exception 异常
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         log.info("Received data in custom handler: " + msg);
-        channelRead0(ctx,  messageHandler(msg));  // 调用此行以确保消息传递
+        channelRead0(ctx, messageHandler(msg));  // 调用此行以确保消息传递
     }
 
     /**
      * 客户端连接成功
      *
-     * @param ctx    通道参数
-     * @throws Exception  异常
+     * @param ctx 通道参数
+     * @throws Exception 异常
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -87,8 +88,8 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<TextWebS
     /**
      * 异常处理
      *
-     * @param ctx  通道参数
-     * @param cause  异常
+     * @param ctx   通道参数
+     * @param cause 异常
      */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
