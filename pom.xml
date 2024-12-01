@@ -16,48 +16,43 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.release>1.8</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <netty.version>4.1.115.Final</netty.version>
-        <jackson.version>2.15.2</jackson.version>
-        <lombok.version>1.18.24</lombok.version>
-        <jwt.version>0.12.6</jwt.version>
-        <log4j.version>2.23.1</log4j.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>${netty.version}</version>
+            <version>4.1.115.Final</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
+            <version>2.15.2</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
+            <version>1.18.24</version>
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
-            <version>${jwt.version}</version> <!-- 选择适当的版本 -->
+            <version>0.12.6</version> <!-- 选择适当的版本 -->
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-impl</artifactId>
-            <version>${jwt.version}</version> <!-- 确保版本正确 -->
+            <version>0.12.6</version> <!-- 确保版本正确 -->
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId>
-            <version>${jwt.version}</version> <!-- 也可以使用 jjwt-jackson -->
+            <version>0.12.6</version> <!-- 也可以使用 jjwt-jackson -->
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>${log4j.version}</version>
+            <version>2.23.1</version>
         </dependency>
     </dependencies>
 
@@ -88,7 +83,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.3.1</version>
+                <version>2.2.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
