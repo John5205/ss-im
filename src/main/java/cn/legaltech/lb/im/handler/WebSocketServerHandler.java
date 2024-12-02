@@ -4,10 +4,13 @@ import cn.legaltech.lb.im.dispatcher.MessageDispatcher;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.*;
 import io.netty.util.CharsetUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * 聊天服务处理中心
@@ -16,37 +19,75 @@ import org.apache.logging.log4j.Logger;
  * @version 1.0.0
  * @since 2024/11/25
  */
-public class WebSocketServerHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
+public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocketFrame> {
 
     private static final Logger log = LogManager.getLogger(WebSocketServerHandler.class);
 
+    /**
+     * 读取消息
+     *
+     * @param channelHandlerContext 通道
+     * @param webSocketFrame        消息
+     * @throws Exception 异常
+     */
     @Override
-    public void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) {
-        log.info("Received message: " + msg);
-        ByteBuf content = msg.content();
-        String text = content.toString(CharsetUtil.UTF_8);
-        // 解析消息类型和内容
-        String[] parts = text.split(":");
-        String messageType = parts[0];  // 消息类型
-        String message = parts[1];     // 消息内容
-        // 处理消息
-        MessageDispatcher.dispatch(ctx, messageType, message);
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, WebSocketFrame webSocketFrame) throws Exception {
+        messageHandler(channelHandlerContext, webSocketFrame);
     }
 
     /**
      * 处理消息
      *
      * @param msg 消息
-     * @return 返回转换的消息体
      */
-    private TextWebSocketFrame messageHandler(Object msg) {
+    private void messageHandler(ChannelHandlerContext ctx, WebSocketFrame msg) throws IOException {
         // 如果是字节数据
         if (msg instanceof TextWebSocketFrame) {
             TextWebSocketFrame textWebSocketFrame = (TextWebSocketFrame) msg;
             log.info("Received ByteBuf message: " + textWebSocketFrame);
-            return textWebSocketFrame;
+            String content = textWebSocketFrame.text();
+            // 解析消息类型和内容
+            String[] parts = content.split(":");
+            String messageType = parts[0];  // 消息类型
+            String message = parts[1];     // 消息内容
+            // 处理消息
+            MessageDispatcher.dispatch(ctx, messageType, message);
+        } else if (msg instanceof BinaryWebSocketFrame) {
+            BinaryWebSocketFrame binaryWebSocketFrame = (BinaryWebSocketFrame) msg;
+            ByteBuf content = binaryWebSocketFrame.content();
+            log.info("Received binary message: " + content.readableBytes());
+            // 示例：将二进制数据直接转发或保存到文件
+            byte[] data = new byte[content.readableBytes()];
+            content.readBytes(data);
+            // 保存文件（伪代码）
+            saveFile("uploaded_file", data);
+            // 回复客户端
+            ctx.writeAndFlush(new TextWebSocketFrame("File received, size: " + data.length));
+        } else if (msg instanceof CloseWebSocketFrame) {
+            CloseWebSocketFrame frame = (CloseWebSocketFrame) msg;
+            System.out.println("Received close frame: " + frame.reasonText());
+            ctx.close();
+        } else if (msg instanceof PingWebSocketFrame) {
+            PingWebSocketFrame frame = (PingWebSocketFrame) msg;
+            ctx.writeAndFlush(new PongWebSocketFrame(frame.content().retain())); // 回复 Pong
+        } else if (msg instanceof PongWebSocketFrame) {
+            log.info("Received pong");
+        } else {
+            throw new UnsupportedOperationException("Unsupported frame type: " + msg.getClass().getName());
         }
-        return null;
+    }
+
+    /**
+     * 文件保存逻辑
+     *
+     * @param fileName 文件名称
+     * @param data     数据
+     * @throws IOException 异常
+     */
+    private void saveFile(String fileName, byte[] data) throws IOException {
+        try (FileOutputStream fos = new FileOutputStream(fileName)) {
+            fos.write(data);
+        }
     }
 
     /**
@@ -56,11 +97,11 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<TextWebS
      * @param msg 消息
      * @throws Exception 异常
      */
-    @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        log.info("Received data in custom handler: " + msg);
-        channelRead0(ctx, messageHandler(msg));  // 调用此行以确保消息传递
-    }
+//    @Override
+//    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+//        log.info("Received data in custom handler: " + msg);
+//        channelRead0(ctx, messageHandler(msg));  // 调用此行以确保消息传递
+//    }
 
     /**
      * 客户端连接成功

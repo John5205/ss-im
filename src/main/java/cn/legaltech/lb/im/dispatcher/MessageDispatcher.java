@@ -51,7 +51,7 @@ public class MessageDispatcher {
      * @param messageType    消息类型
      * @param messageContent 消息内容
      */
-    public static void dispatch(ChannelHandlerContext ctx, String messageType, Object messageContent) {
+    public static void dispatch(ChannelHandlerContext ctx, String messageType, String messageContent) {
         MessageHandler handler = handlers.get(messageType);
         if (handler == null) {
             log.error("No handler found for message type: " + messageType);
