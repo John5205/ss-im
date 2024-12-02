@@ -12,7 +12,7 @@ ss-im 是一款简单便捷的即时通讯工具，基于Netty高性能框架实
   <dependency>
       <groupId>io.gitee.harrison-ss</groupId>
       <artifactId>ss-im</artifactId>
-      <version>1.0.0</version>
+      <version>1.0.1</version>
   </dependency>
   ```  
 
