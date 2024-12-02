@@ -1,7 +1,12 @@
 package cn.legaltech.lb.im.dispatcher;
 
 import cn.legaltech.lb.im.annotation.MessageMapping;
+import cn.legaltech.lb.im.bean.Message;
+import cn.legaltech.lb.im.enums.MessageTypeEnum;
 import cn.legaltech.lb.im.handler.HeartbeatHandler;
+import cn.legaltech.lb.im.utils.ClientSessionManager;
+import cn.legaltech.lb.im.utils.JsonUtils;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.AttributeKey;
 import org.apache.logging.log4j.LogManager;
@@ -69,22 +74,27 @@ public class MessageDispatcher {
 
         // 异步或同步调用处理方法
         if (handler.mapping.async()) {
-            new Thread(() -> invokeHandler(handler, ctx, messageContent)).start();
+            new Thread(() -> invokeHandler(messageContent)).start();
         } else {
-            invokeHandler(handler, ctx, messageContent);
+            invokeHandler(messageContent);
         }
     }
 
     /**
      * 调用处理方法
      *
-     * @param handler        消息处理器
-     * @param ctx            通道上下文
      * @param messageContent 消息内容
      */
-    private static void invokeHandler(MessageHandler handler, ChannelHandlerContext ctx, Object messageContent) {
+    private static void invokeHandler(String messageContent) {
         try {
-            handler.method.invoke(handler.instance, ctx, messageContent);
+            Message message = JsonUtils.fromJson(messageContent, Message.class);
+            String targetId = message.getTargetId();
+            String content = message.getContent();
+            String type = message.getType();
+            MessageProcessor messageProcessor = MessageProcessorManager.getMessageProcessors().get(type);
+            if (messageProcessor != null) {
+                messageProcessor.process(content, targetId);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
