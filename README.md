@@ -1,28 +1,22 @@
 # ss-im
 
 #### 介绍
-ss-im
-
-#### 软件架构
-软件架构说明
+ss-im 是一款简单便捷的即时通讯工具，基于Netty高性能框架实现。
 
 
 #### 安装教程
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+  1、首先maven添加依赖
+  ```
+  <dependency>
+      <groupId>io.gitee.harrison-ss</groupId>
+      <artifactId>ss-im</artifactId>
+      <version>1.0.0</version>
+  </dependency>
+  ```  
+
 
 #### 使用说明
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+   1、添加配置文件使用@NettyServer注解、消息监听器@MessageMapping
 
