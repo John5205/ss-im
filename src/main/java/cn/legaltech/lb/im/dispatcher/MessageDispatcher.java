@@ -1,6 +1,7 @@
-package cn.legaltech.lb.im.server;
+package cn.legaltech.lb.im.dispatcher;
 
 import cn.legaltech.lb.im.annotation.MessageMapping;
+import cn.legaltech.lb.im.handler.HeartbeatHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.AttributeKey;
 import org.apache.logging.log4j.LogManager;

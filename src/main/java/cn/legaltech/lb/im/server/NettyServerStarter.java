@@ -1,5 +1,6 @@
 package cn.legaltech.lb.im.server;
 
+import cn.legaltech.lb.im.handler.ScannerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
@@ -24,12 +25,18 @@ public class NettyServerStarter {
     private int port;
 
     /**
+     * 包名
+     */
+    private String packageName;
+
+    /**
      * 构造方法
      *
      * @param port 端口
      */
-    public NettyServerStarter(int port) {
+    public NettyServerStarter(int port, String packageName) {
         this.port = port;
+        this.packageName = packageName;
     }
 
     /**
@@ -49,7 +56,7 @@ public class NettyServerStarter {
                     .option(ChannelOption.SO_BACKLOG, 128)  // TCP缓冲区大小
                     .childOption(ChannelOption.SO_KEEPALIVE, true) // 保持连接
             ;
-            HandlerScanner.scanAndRegisterHandlers("cn.legaltech.lb.h5.ws.handler");
+            ScannerHandler.scanAndRegisterHandlers(packageName);
             ChannelFuture f = bootstrap.bind(port).sync(); // 绑定端口，开始接收进来的连接
             log.info("Starting Netty server on port: " + port + " success");
             f.channel().closeFuture().sync(); // 等待服务器监听端口关闭

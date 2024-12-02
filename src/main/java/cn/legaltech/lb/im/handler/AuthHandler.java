@@ -1,4 +1,4 @@
-package cn.legaltech.lb.im.server;
+package cn.legaltech.lb.im.handler;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;

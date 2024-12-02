@@ -1,6 +1,8 @@
-package cn.legaltech.lb.im.server;
+package cn.legaltech.lb.im.handler;
 
 import cn.legaltech.lb.im.annotation.MessageMapping;
+import cn.legaltech.lb.im.dispatcher.MessageDispatcher;
+import cn.legaltech.lb.im.handler.HeartbeatHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +19,7 @@ import java.util.List;
  * @version 1.0.0
  * @since 2024/11/26
  */
-public class HandlerScanner {
+public class ScannerHandler {
 
     private static final Logger log = LogManager.getLogger(HeartbeatHandler.class);
 

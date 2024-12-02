@@ -22,4 +22,11 @@ public @interface NettyServer {
      * @return 返回服务端口
      */
     int port() default 8086;
+
+    /**
+     * 扫描包名
+     *
+     * @return 返回包名
+     */
+    String packageName();
 }

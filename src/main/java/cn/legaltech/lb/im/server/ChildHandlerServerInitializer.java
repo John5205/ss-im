@@ -1,5 +1,7 @@
 package cn.legaltech.lb.im.server;
 
+import cn.legaltech.lb.im.handler.HeartbeatHandler;
+import cn.legaltech.lb.im.handler.WebSocketServerHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
