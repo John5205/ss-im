@@ -1,4 +1,4 @@
-package cn.legaltech.lb.im.utils;
+package cn.legaltech.lb.im.dispatcher;
 
 import io.netty.channel.Channel;
 
@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version 1.0.0
  * @since 2024/12/2
  */
-public class ClientSessionManager {
+public class UserChannelManager {
     private static final Map<String, Channel> clientSessions = new ConcurrentHashMap<>();
 
     /**

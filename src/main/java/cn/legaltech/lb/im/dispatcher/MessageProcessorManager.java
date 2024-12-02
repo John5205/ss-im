@@ -1,7 +1,7 @@
 package cn.legaltech.lb.im.dispatcher;
 
-import cn.legaltech.lb.im.utils.ClientSessionManager;
 import io.netty.channel.Channel;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -49,12 +49,12 @@ public class MessageProcessorManager {
      * @param content  消息内容
      * @param targetId 目标用户 ID
      */
-    private static void handleChatMessage(String content, String targetId) {
+    public static void handleChatMessage(String content, String targetId) {
         // 处理聊天消息的逻辑
         log.info("Processing chat message: {}", content);
-        Channel session = ClientSessionManager.getSession(targetId);
+        Channel session = UserChannelManager.getSession(targetId);
         if (session != null) {
-            session.writeAndFlush(content);
+            session.writeAndFlush(new TextWebSocketFrame(content));
         }
     }
 
@@ -64,7 +64,7 @@ public class MessageProcessorManager {
      * @param content  消息内容
      * @param targetId 目标用户 ID
      */
-    private static void handleFileMessage(String content, String targetId) {
+    public static void handleFileMessage(String content, String targetId) {
         // 处理文件消息的逻辑
         log.info("Processing file message: {}", content);
         // 文件传输的逻辑
@@ -76,7 +76,7 @@ public class MessageProcessorManager {
      * @param content  消息内容
      * @param targetId 目标用户 ID
      */
-    private static void handleVideoMessage(String content, String targetId) {
+    public static void handleVideoMessage(String content, String targetId) {
     }
 
     /**
@@ -85,7 +85,7 @@ public class MessageProcessorManager {
      * @param content  消息内容
      * @param targetId 目标用户 ID
      */
-    private static void handleAudioMessage(String content, String targetId) {
+    public static void handleAudioMessage(String content, String targetId) {
 
     }
 
