@@ -2,11 +2,8 @@ package cn.legaltech.lb.im.dispatcher;
 
 import cn.legaltech.lb.im.annotation.MessageMapping;
 import cn.legaltech.lb.im.bean.Message;
-import cn.legaltech.lb.im.enums.MessageTypeEnum;
 import cn.legaltech.lb.im.handler.HeartbeatHandler;
-import cn.legaltech.lb.im.utils.ClientSessionManager;
 import cn.legaltech.lb.im.utils.JsonUtils;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.AttributeKey;
 import org.apache.logging.log4j.LogManager;
