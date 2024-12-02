@@ -65,7 +65,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
             ctx.writeAndFlush(new TextWebSocketFrame("File received, size: " + data.length));
         } else if (msg instanceof CloseWebSocketFrame) {
             CloseWebSocketFrame frame = (CloseWebSocketFrame) msg;
-            System.out.println("Received close frame: " + frame.reasonText());
+            log.info("Received close frame: " + frame.reasonText());
             ctx.close();
         } else if (msg instanceof PingWebSocketFrame) {
             PingWebSocketFrame frame = (PingWebSocketFrame) msg;
