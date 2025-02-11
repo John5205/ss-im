@@ -24,6 +24,13 @@ public @interface NettyServer {
     int port() default 8086;
 
     /**
+     * websocket路径
+     *
+     * @return 返回websocket路径
+     */
+    String wsPath() default "/ws";
+
+    /**
      * 扫描包名
      *
      * @return 返回包名

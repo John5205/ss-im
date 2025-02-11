@@ -2,6 +2,7 @@ package cn.legaltech.lb.im.server;
 
 import cn.legaltech.lb.im.handler.HeartbeatHandler;
 import cn.legaltech.lb.im.handler.WebSocketServerHandler;
+import cn.legaltech.lb.im.handler.WebSocketServerMsgHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -29,6 +30,19 @@ public class ChildHandlerServerInitializer extends ChannelInitializer<SocketChan
     private static final Logger log = LogManager.getLogger(ChildHandlerServerInitializer.class);
 
     /**
+     * WebSocket 路径
+     */
+    private String wsPath;
+
+    /**
+     * 构造方法
+     * @param wsPath WebSocket 路径
+     */
+    public ChildHandlerServerInitializer(String wsPath) {
+        this.wsPath = wsPath;
+    }
+
+    /**
      * 初始化通道
      *
      * @param ch socket通道
@@ -44,13 +58,13 @@ public class ChildHandlerServerInitializer extends ChannelInitializer<SocketChan
         // 配置服务器端处理器
         pipeline.addLast(new HttpServerCodec());  // HTTP 解码器
         pipeline.addLast(new HttpObjectAggregator(65536));  // HTTP 聚合器
-        pipeline.addLast(new WebSocketServerProtocolHandler("/lb"));  // WebSocket 协议处理器
+        pipeline.addLast(new WebSocketServerProtocolHandler(wsPath));  // WebSocket 协议处理器
         pipeline.addLast(new LoggingHandler(LogLevel.INFO));// 日志
         // 心跳检测（读、写、读写空闲时间分别为 60s, 0s, 0s）
         pipeline.addLast(new IdleStateHandler(60, 0, 0));
         pipeline.addLast(new HeartbeatHandler());//心跳检测
 
         // 如果是 childChannel (即每个连接)，我们设置子通道的处理器
-        pipeline.addLast(new WebSocketServerHandler());  // 自定义 WebSocket 处理器
+        pipeline.addLast(new WebSocketServerMsgHandler());  // 自定义 WebSocket 处理器
     }
 }

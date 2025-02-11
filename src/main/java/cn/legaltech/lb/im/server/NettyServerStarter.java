@@ -18,6 +18,7 @@ import org.apache.logging.log4j.Logger;
  * @since 2024/11/25 16:04
  */
 public class NettyServerStarter {
+
     private static final Logger log = LogManager.getLogger(NettyServerStarter.class);
     /**
      * 服务器端口
@@ -30,13 +31,19 @@ public class NettyServerStarter {
     private String packageName;
 
     /**
+     * websocket 路径
+     */
+    private String wsPath;
+
+    /**
      * 构造方法
      *
      * @param port 端口
      */
-    public NettyServerStarter(int port, String packageName) {
+    public NettyServerStarter(int port, String wsPath, String packageName) {
         this.port = port;
         this.packageName = packageName;
+        this.wsPath = wsPath;
     }
 
     /**
@@ -52,7 +59,7 @@ public class NettyServerStarter {
             ServerBootstrap bootstrap = new ServerBootstrap(); // 创建服务器端引导类
             bootstrap.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)    // 使用 NIO 的 SocketChannel    、
-                    .childHandler(new ChildHandlerServerInitializer())      // 确保在此配置了正确的处理器
+                    .childHandler(new ChildHandlerServerInitializer(wsPath))      // 确保在此配置了正确的处理器
                     .option(ChannelOption.SO_BACKLOG, 128)  // TCP缓冲区大小
                     .childOption(ChannelOption.SO_KEEPALIVE, true) // 保持连接
             ;

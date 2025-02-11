@@ -26,10 +26,11 @@ public class NettyApplication {
         if (annotatedClass.isAnnotationPresent(NettyServer.class)) {
             NettyServer nettyServer = annotatedClass.getAnnotation(NettyServer.class);
             int port = nettyServer.port();
+            String wsPath = nettyServer.wsPath();
             String packageName = nettyServer.packageName();
-            log.info("Starting Netty server on port: " + port + "...,packageName:" + packageName);
+            log.info("Starting Netty server on port: " + port + " (ws),packageName:" + packageName);
             // 启动服务器
-            new NettyServerStarter(port, packageName).start();  // NettyServer 继续封装具体启动逻辑
+            new NettyServerStarter(port, wsPath, packageName).start();  // NettyServer 继续封装具体启动逻辑
         } else {
             throw new IllegalArgumentException("Class " + annotatedClass.getName() + " is not annotated with @NettyServer.");
         }
