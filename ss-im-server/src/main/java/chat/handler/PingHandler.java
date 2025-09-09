@@ -1,6 +1,6 @@
 package chat.handler;
 
-import cn.legaltech.lb.im.annotation.MessageMapping;
+import xin.harrison.im.annotation.MessageMapping;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.log4j.Log4j2;

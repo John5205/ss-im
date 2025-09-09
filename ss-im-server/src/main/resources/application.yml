@@ -1,0 +1,21 @@
+server:
+  port: 8080
+
+# JWT 配置
+jwt:
+  secret-key: ${JWT_SECRET_KEY:}  # 优先从环境变量获取，为空则使用自动生成的密钥
+  expiration-time: ${JWT_EXPIRATION_TIME:86400000}  # 过期时间，单位毫秒，默认1天
+
+# 日志配置
+logging:
+  level:
+    xin.harrison.im: INFO
+    chat: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# Netty 配置
+netty:
+  port: 8086
+  ws-path: /ws
+  package-name: chat.handler

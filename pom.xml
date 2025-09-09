@@ -6,7 +6,7 @@
 
     <groupId>io.gitee.harrison-ss</groupId>
     <artifactId>ss-im</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>pom</packaging>
     <description>ss-im 是一款简单便捷的即时通讯工具，基于Netty高性能框架实现。目前仅支持文字单聊,后面还会支持图片、语音、视频等。</description>
     <url>https://gitee.com/harrison-ss/ss-im.git</url>

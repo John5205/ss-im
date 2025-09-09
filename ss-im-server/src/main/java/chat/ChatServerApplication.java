@@ -1,7 +1,7 @@
 package chat;
 
 import chat.config.NettyConfig;
-import cn.legaltech.lb.im.server.NettyApplication;
+import xin.harrison.im.server.NettyApplication;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

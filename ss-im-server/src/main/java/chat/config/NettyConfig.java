@@ -1,13 +1,13 @@
 package chat.config;
 
 
-import cn.legaltech.lb.im.annotation.NettyServer;
+import xin.harrison.im.annotation.NettyServer;
 
 /**
  * @author Harrison
  * @version 1.0.0
  * 
  */
-@NettyServer(packageName = "chat.handler")
+@NettyServer(packageName = "chat.handler", port = 8086, wsPath = "/ws")
 public class NettyConfig {
 }
