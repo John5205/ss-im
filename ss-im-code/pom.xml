@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.gitee.harrison-ss</groupId>
+        <groupId>io.gitee.harrisonxin</groupId>
         <artifactId>ss-im</artifactId>
         <version>1.0.2</version>
     </parent>
@@ -15,9 +15,9 @@
     <packaging>jar</packaging>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.release>1.8</maven.compiler.release>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.release>17</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -75,9 +75,9 @@
         </developer>
     </developers>
     <scm>
-        <url>https://gitee.com/harrison-ss/ss-im.git</url>
-        <connection>scm:git:git://gitee.com/harrison-ss/ss-im.git</connection>
-        <developerConnection>scm:git:ssh://git@gitee.com/harrison-ss/ss-im.git</developerConnection>
+        <url>https://gitee.com/harrisonxin/ss-im.git</url>
+        <connection>scm:git:git://gitee.com/harrisonxin/ss-im.git</connection>
+        <developerConnection>scm:git:ssh://git@gitee.com/harrisonxin/ss-im.git</developerConnection>
     </scm>
 
     <build>
@@ -103,7 +103,8 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.9.1</version>
                 <configuration>
-                    <javadocExecutable>/Library/Java/JavaVirtualMachines/jdk-1.8.jdk/Contents/Home/bin/javadoc</javadocExecutable>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
                 <executions>
                     <execution>
@@ -117,31 +118,43 @@
         </plugins>
     </build>
 
-    <!--    <distributionManagement>-->
-    <!--        <snapshotRepository>-->
-    <!--            <id>central</id>-->
-    <!--            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>-->
-    <!--        </snapshotRepository>-->
-    <!--        <repository>-->
-    <!--            <id>central</id>-->
-    <!--            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2</url>-->
-    <!--        </repository>-->
-    <!--    </distributionManagement>-->
+<!--        <distributionManagement>-->
+<!--            <snapshotRepository>-->
+<!--                <id>ossrh</id>-->
+<!--                <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>-->
+<!--            </snapshotRepository>-->
+<!--            <repository>-->
+<!--                <id>ossrh</id>-->
+<!--                <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2</url>-->
+<!--            </repository>-->
+<!--        </distributionManagement>-->
 
     <distributionManagement>
         <snapshotRepository>
-            <id>ossrh</id>
+            <id>central</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
         <repository>
-            <id>ossrh</id>
+            <id>central</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
 
-
-
     <profiles>
+        <!-- 本地部署配置（备用方案） -->
+        <profile>
+            <id>local-deploy</id>
+            <distributionManagement>
+                <repository>
+                    <id>local-repo</id>
+                    <url>file://${project.basedir}/target/repo</url>
+                </repository>
+                <snapshotRepository>
+                    <id>local-repo</id>
+                    <url>file://${project.basedir}/target/repo</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
         <profile>
             <id>release</id>
             <build>
@@ -164,11 +177,10 @@
                     <plugin>
                         <groupId>org.sonatype.central</groupId>
                         <artifactId>central-publishing-maven-plugin</artifactId>
-                        <version>0.6.0</version>
+                        <version>0.8.0</version>
                         <extensions>true</extensions>
                         <configuration>
-                            <publishingServerId>ossrh</publishingServerId>
-                            <autoPublish>true</autoPublish>
+                            <publishingServerId>central</publishingServerId>
                         </configuration>
                     </plugin>
                 </plugins>
